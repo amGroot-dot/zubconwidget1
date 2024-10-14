@@ -23,10 +23,17 @@ ZOHO.CREATOR.init()
     const appendItems = (all_items) => {
       const list = document.querySelector(".list");
       let tag = "";
+      let CreateNew = "<h3>Create New</h3>";
+      let viewUpdate = "<h3> View | Update</h3>";
       for (let i = 0; i < all_items.length; i++) {
-        tag += `<a href="${all_items[i].Link_Name}" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
+        if (all_items[i].Type_field === "Create New") {
+          
+          CreateNew += `<a href="${all_items[i].Link_Name}" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
+        } else if (all_items[i].Type_field === "View | Update") {
+          viewUpdate += `<a href="${all_items[i].Link_Name}" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
+        }
       }
-      list.innerHTML = tag;
+      list.innerHTML = CreateNew + viewUpdate;
     }
     document.addEventListener("DOMContentLoaded", async () => {
       const nameArr = await getRecords();
