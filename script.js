@@ -23,8 +23,8 @@ ZOHO.CREATOR.init()
     const appendItems = (all_items) => {
       const list = document.querySelector(".list");
       let tag = "";
-      let CreateNew = "<h3>Create New</h3>";
-      let viewUpdate = "<h3> View | Update</h3>";
+      let CreateNew = "<h6>Create New</h6>";
+      let viewUpdate = "<h6> View | Update</h6>";
       for (let i = 0; i < all_items.length; i++) {
         if (all_items[i].Type_field === "Create New") {
           
