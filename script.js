@@ -2,14 +2,7 @@
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
-
-    config = {
-      action : "open",
-      url : "https://creatorapp.zoho.com/megan/zylker-online-tutorials/#Form:User_Details",
-    window : "same"
-    }
-    ZOHO.CREATOR.UTIL.navigateParentURL(config);
-
+    
     // Get Records from ZOho Creator
     const getRecords = async () => {
       const config = {
