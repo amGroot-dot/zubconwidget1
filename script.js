@@ -2,7 +2,7 @@
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
-    
+
     // Get Records from ZOho Creator
     const getRecords = async () => {
       const config = {
