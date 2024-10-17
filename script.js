@@ -27,6 +27,8 @@ ZOHO.CREATOR.init()
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+    }
+
 
 
 // Append Item list in the UI
