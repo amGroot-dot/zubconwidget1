@@ -16,17 +16,7 @@ ZOHO.CREATOR.init()
         console.log(error);
       }
 
-      
     }
-
-    const myFunction = async (url) => {
-      config = {
-        action: "open",
-        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url,
-        window: "same"
-      }
-
-      await ZOHO.CREATOR.UTIL.navigateParentURL(config);
 
 
 // Append Item list in the UI
@@ -38,7 +28,7 @@ ZOHO.CREATOR.init()
       for (let i = 0; i < all_items.length; i++) {
         if (all_items[i].Type_field === "Create New") {
           
-          CreateNew += `<a href="ZOHO.CREATOR.UTIL.navigateParentURL(config)" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
+          CreateNew += `<a href="https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:${all_items[i].Link_Name}" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
         } else if (all_items[i].Type_field === "View | Update") {
           viewUpdate += `<a href="https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:${all_items[i].Link_Name}" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
         }
