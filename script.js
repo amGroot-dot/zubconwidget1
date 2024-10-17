@@ -16,8 +16,8 @@ ZOHO.CREATOR.init()
         console.log(error);
       }
 
+      
     }
-
 
     const myFunction = async (url) => {
       config = {
@@ -27,53 +27,28 @@ ZOHO.CREATOR.init()
       }
 
       await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-    }
 
-    // Append Item list in the UI
+
+// Append Item list in the UI
     const appendItems = (all_items) => {
       const list = document.querySelector(".list");
-      list.innerHTML = ""; // Clear existing items
-    
-      // Create separate containers for each category
-      const createNewContainer = document.createElement('div');
-      const viewUpdateContainer = document.createElement('div');
-    
-      // Add headers for each section
-      createNewContainer.innerHTML = "<h6>Create New</h6>";
-      viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
-    
-      // Iterate over all items
+      let tag = "";
+      let CreateNew = "<h6>Create New</h6>";
+      let viewUpdate = "<h6> View | Update</h6>";
       for (let i = 0; i < all_items.length; i++) {
-        const divWrapper = document.createElement('div'); // Create a div wrapper for each button
-        divWrapper.classList.add('button-wrapper'); // Add a class to the wrapper
-    
-        const button = document.createElement('button');
-        button.textContent = all_items[i].Name;
-        button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
-        button.classList.add('custom-button'); // Add a custom button class for styling
-    
-        divWrapper.appendChild(button); // Append button to div wrapper
-    
-        // Append buttons to the appropriate section based on Type_field
         if (all_items[i].Type_field === "Create New") {
-          createNewContainer.appendChild(divWrapper);
+          
+          CreateNew += `<a href="ZOHO.CREATOR.UTIL.navigateParentURL(config)" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
         } else if (all_items[i].Type_field === "View | Update") {
-          viewUpdateContainer.appendChild(divWrapper);
+          viewUpdate += `<a href="https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:${all_items[i].Link_Name}" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
         }
       }
-    
-      // Append both containers to the main list
-      list.appendChild(createNewContainer);
-      list.appendChild(viewUpdateContainer);
+      list.innerHTML = CreateNew + viewUpdate;
     }
-    
-    
-
     document.addEventListener("DOMContentLoaded", async () => {
       const nameArr = await getRecords();
       appendItems(nameArr);
-    });
-
+    })
 
 
     // Input Actions
