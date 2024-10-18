@@ -19,26 +19,75 @@ ZOHO.CREATOR.init()
     }
 
 
-// Append Item list in the UI
+    const myFunction = async (url) => {
+      config = {
+        action: "open",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:" + url,
+        window: "same"
+      }
+
+      await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+    }
+
+    const parama = async (url) => {
+      config = {
+        action: "open",
+        url: "https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:" + url,
+        window: "same"
+      }
+
+      await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+    }
+
+    // Append Item list in the UI
     const appendItems = (all_items) => {
       const list = document.querySelector(".list");
-      let tag = "";
-      let CreateNew = "<h6>Create New</h6>";
-      let viewUpdate = "<h6> View | Update</h6>";
+      list.innerHTML = ""; // Clear existing items
+    
+      // Create separate containers for each category
+      const createNewContainer = document.createElement('div');
+      const viewUpdateContainer = document.createElement('div');
+    
+      // Add headers for each section
+      createNewContainer.innerHTML = "<h6>Create New</h6>";
+      viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
+    
+      // Iterate over all items
       for (let i = 0; i < all_items.length; i++) {
+        const divWrapper = document.createElement('div'); // Create a div wrapper for each button
+        divWrapper.classList.add('button-wrapper'); // Add a class to the wrapper
+    
+        const button = document.createElement('button');
+        button.textContent = all_items[i].Name;
+        // Add a custom button class for styling
+    
+        // Append button to div wrapper
+    
+        // Append buttons to the appropriate section based on Type_field
         if (all_items[i].Type_field === "Create New") {
-          
-          CreateNew += `<a href="https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Form:${all_items[i].Link_Name}" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
+          createNewContainer.appendChild(divWrapper);
+          button.addEventListener('click', () => myFunction(all_items[i].Link_Name));
+        button.classList.add('custom-button'); 
         } else if (all_items[i].Type_field === "View | Update") {
-          viewUpdate += `<a href="https://creatorapp.zoho.in/app_zubcon/zubcon-backup-j25/#Report:${all_items[i].Link_Name}" class="item text-dark" target='_top'>${all_items[i].Name}</a>`;
+          viewUpdateContainer.appendChild(divWrapper);
+          button.addEventListener('click', () => parama(all_items[i].Link_Name));
+        button.classList.add('custom-button'); 
         }
+        divWrapper.appendChild(button); 
       }
-      list.innerHTML = CreateNew + viewUpdate;
+    
+      // Append both containers to the main list
+      list.appendChild(createNewContainer);
+      list.appendChild(viewUpdateContainer);
     }
+    
+    
+
     document.addEventListener("DOMContentLoaded", async () => {
       const nameArr = await getRecords();
       appendItems(nameArr);
-    })
+    });
+
 
 
     // Input Actions
