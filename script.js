@@ -49,7 +49,7 @@ ZOHO.CREATOR.init()
       const viewUpdateContainer = document.createElement('div');
     
       // Add headers for each section
-      createNewContainer.innerHTML = "<h6>Create New</h6>";
+      createNewContainer.innerHTML = "<h6 style:"margin-left: 10px;margin-top: 10px;">Create New</h6>";
       viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
     
       // Iterate over all items
