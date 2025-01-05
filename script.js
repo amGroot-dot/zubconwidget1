@@ -1,4 +1,12 @@
-
+  document.getElementById("gear-icon").addEventListener("click", function () {
+            const gearIcon = document.getElementById("gear-icon");
+            gearIcon.style.display = "none";
+            const offcanvas = new bootstrap.Offcanvas(document.getElementById("quickLinks"));
+            offcanvas.show();
+            document.getElementById("quickLinks").addEventListener("hidden.bs.offcanvas", function () {
+                gearIcon.style.display = "block";
+            });
+        });
 // Initialize zoho js API
 ZOHO.CREATOR.init()
   .then(function (data) {
