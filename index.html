@@ -24,26 +24,28 @@
     </div>
 
     <!-- Search interface -->
-    <div class="container mt-5">
-        <div class="row align-items-center">
-            <div class="col-12">
-                <div class="d-flex position-relative">
-                    <form class="flex-grow-1">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="bi bi-search"></i></span>
-                            <input type="text" class="form-control" placeholder="Search Zubcon" aria-label="Search"
-                                aria-describedby="button-addon2" id="search">
-                            <div class="list d-none border bg-white position-absolute start-0">
-                                <!-- <a href="#" class="item text-dark">Item 1</a> -->
-                            </div>
+  <div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-12">
+            <div class="d-flex position-relative">
+                <form class="flex-grow-1">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                        <input type="text" class="form-control" placeholder="Search Zubcon" aria-label="Search"
+                            aria-describedby="button-addon2" id="search">
+                        <div class="list d-none">
+                            <!-- Dynamic search results go here -->
                         </div>
-                    </form>
-                    <a href="#" class="ms-2 text-decoration-none" id="gear-icon">
-                        <i class="position-fixed top-0 end-0 p-3" style="z-index: 1050; margin-top: 85px; font-size: 20px;color: #4b30b8;"><u>QuickLinks</u></i>
-                    </a>
-                </div>
+                    </div>
+                </form>
+                <a href="#" class="ms-2 text-decoration-none" id="gear-icon">
+                    <i class="position-fixed top-0 end-0 p-3" style="z-index: 1050; margin-top: 85px; font-size: 20px;color: #4b30b8;"><u>QuickLinks</u></i>
+                </a>
             </div>
         </div>
+    </div>
+</div>
+
 
         <!-- Cards Section -->
         <div class="row mt-4">
@@ -172,29 +174,36 @@
               overflow-y: auto;
           }
   
-          .list .item {
-              text-decoration: none;
-              padding: 15px;
-              display: block;
-          }
-  
-          .list .item:hover {
-              background: #e2e2e2;
-              transition: 0.2s;
-          }
-  
           .cursor-pointer {
               cursor: pointer;
           }
   
-          .list {
-              top: 100%;
-              max-height: 150px;
-              position: absolute;
-              width: 100%;
-              overflow-y: auto;
-          }
-  
+ .list {
+        top: 100%;
+        max-height: 150px;
+        position: absolute; /* Ensure the list is positioned relative to its parent */
+        width: 100%;
+        overflow-y: auto;
+        z-index: 1050; /* Set a high z-index so it appears above other elements */
+        background-color: white; /* Ensure the background is visible above other content */
+        border: 1px solid #ddd;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .d-flex.position-relative {
+        position: relative; /* Parent container needs relative positioning */
+    }
+
+    .list .item {
+        text-decoration: none;
+        padding: 15px;
+        display: block;
+    }
+
+    .list .item:hover {
+        background: #e2e2e2;
+        transition: 0.2s;
+    }
           .custom-button {
               background: none;
               border: none;
