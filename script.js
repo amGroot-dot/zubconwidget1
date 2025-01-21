@@ -8,6 +8,28 @@ document.getElementById("gear-icon").addEventListener("click", function () {
       gearIcon.style.display = "block";
   });
 });
+// Select all cards with the class "clickable-card"
+    const cards = document.querySelectorAll(".clickable-card");
+
+    // Loop through each card and add a click event listener
+    cards.forEach(card => {
+        card.addEventListener("click", () => {
+            const url = card.getAttribute("data-url"); // Get the URL from the data-url attribute
+            if (url) {
+                window.open(url, "_blank"); // Open the Zoho Creator form/report in a new tab
+            }
+        });
+
+        // Add hover effect for better UX
+        card.style.cursor = "pointer";
+        card.addEventListener("mouseover", () => {
+            card.classList.add("shadow-lg");
+        });
+        card.addEventListener("mouseout", () => {
+            card.classList.remove("shadow-lg");
+        });
+    });
+
 // Initialize zoho js API
 // function deviceType() {
 //   const ua = navigator.userAgent;
