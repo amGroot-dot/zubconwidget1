@@ -15,9 +15,8 @@ document.getElementById("gear-icon").addEventListener("click", function () {
     cards.forEach(card => {
         card.addEventListener("click", () => {
             const url = card.getAttribute("data-url"); // Get the URL from the data-url attribute
-          if (url) {
-                // Load the URL in a Zoho Creator dialog
-                zc_LoadIn(url, "dialog");
+         if (url) {
+                window.location.href = url; // Navigate to the URL in the same window
             }
         });
 
