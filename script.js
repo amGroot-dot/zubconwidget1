@@ -17,7 +17,7 @@ document.getElementById("gear-icon").addEventListener("click", function () {
             const url = card.getAttribute("data-url"); // Get the URL from the data-url attribute
           if (url) {
                 // Use window.open() to redirect properly
-                window.open(url, "_self"); // Opens the URL in the same tab (replacing the current page)
+                window.open(url+"?zc_LoadIn=dialog"); // Opens the URL in the same tab (replacing the current page)
             }
         });
 
