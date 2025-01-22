@@ -15,8 +15,13 @@ document.getElementById("gear-icon").addEventListener("click", function () {
     cards.forEach(card => {
         card.addEventListener("click", () => {
             const url = card.getAttribute("data-url"); // Get the URL from the data-url attribute
-            if (url) {
-                window.open(url, "_blank"); // Open the Zoho Creator form/report in a new tab
+           if (url) {
+                // Open the URL in a popup window
+                window.open(
+                    url,
+                    "popupWindow",
+                    "width=800,height=600,scrollbars=yes,resizable=yes"
+                );
             }
         });
 
