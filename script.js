@@ -15,13 +15,10 @@ document.getElementById("gear-icon").addEventListener("click", function () {
     cards.forEach(card => {
         card.addEventListener("click", () => {
             const url = card.getAttribute("data-url"); // Get the URL from the data-url attribute
-           if (url) {
-                // Open the URL in a popup window
-                window.open(
-                    url,
-                    "popupWindow",
-                    "width=800,height=600,scrollbars=yes,resizable=yes"
-                );
+            if (url) {
+                // Use Zoho Creator dialog popup
+                zc_LoadIn = "dialog";
+                zc_OpenInDialog(url);
             }
         });
 
@@ -35,6 +32,40 @@ document.getElementById("gear-icon").addEventListener("click", function () {
         });
     });
 
+    // Fallback function to ensure `zc_OpenInDialog` works
+    function zc_OpenInDialog(url) {
+        const iframe = document.createElement("iframe");
+        iframe.src = url;
+        iframe.style.width = "100%";
+        iframe.style.height = "600px";
+        iframe.style.border = "none";
+
+        const dialog = document.createElement("div");
+        dialog.appendChild(iframe);
+        dialog.style.padding = "15px";
+        dialog.style.background = "#fff";
+        dialog.style.borderRadius = "8px";
+        dialog.style.boxShadow = "0 5px 15px rgba(0,0,0,0.3)";
+        dialog.style.width = "90%";
+        dialog.style.maxWidth = "800px";
+        dialog.style.margin = "5% auto";
+        dialog.style.position = "fixed";
+        dialog.style.top = "0";
+        dialog.style.left = "0";
+        dialog.style.right = "0";
+        dialog.style.bottom = "0";
+        dialog.style.zIndex = "1000";
+        dialog.style.overflow = "hidden";
+
+        document.body.appendChild(dialog);
+
+        // Close dialog on clicking outside
+        dialog.addEventListener("click", (event) => {
+            if (event.target === dialog) {
+                document.body.removeChild(dialog);
+            }
+        });
+    }
 // Initialize zoho js API
 // function deviceType() {
 //   const ua = navigator.userAgent;
