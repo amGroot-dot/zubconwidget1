@@ -14,10 +14,10 @@ document.getElementById("gear-icon").addEventListener("click", function () {
     // Loop through each card and add a click event listener
     cards.forEach(card => {
         card.addEventListener("click", () => {
-            const url = card.getAttribute("data-url"); // Get the URL from the data-url attribute
-          if (url) {
-                // Use window.open() to redirect properly
-                window.open(url+"?zc_LoadIn=dialog"); // Opens the URL in the same tab (replacing the current page)
+            const baseUrl = card.getAttribute("data-url"); // Get the base URL from data-url attribute
+            const dialogUrl = `${baseUrl}?zc_LoadIn=dialog`; // Append the dialog parameter
+            if (baseUrl) {
+                window.open(dialogUrl, "_self"); // Open the URL in the current tab
             }
         });
 
