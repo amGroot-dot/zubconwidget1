@@ -13,13 +13,10 @@ document.getElementById("gear-icon").addEventListener("click", function () {
 
     // Loop through each card and add a click event listener
     cards.forEach(card => {
-        card.addEventListener("click", () => {
-            const baseUrl = card.getAttribute("data-url"); // Get the base URL from data-url attribute
-            const dialogUrl = `${baseUrl}?zc_LoadIn=dialog`; // Append the dialog parameter
-            if (baseUrl) {
-                // Use Zoho Creator's zc_LoadIn functionality to open the dialog
-                zc_LoadIn = "dialog"; // Required for Zoho Creator dialogs
-                ZOHO.CREATOR.API.openUrl(dialogUrl, "dialog", { width: 800, height: 600 }); 
+         card.addEventListener("click", () => {
+            const url = card.getAttribute("data-url"); // Get the data-url attribute value
+            if (url) {
+                window.location.href = url; // Redirect to the URL in the same tab
             }
         });
 
