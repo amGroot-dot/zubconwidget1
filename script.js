@@ -17,7 +17,9 @@ document.getElementById("gear-icon").addEventListener("click", function () {
             const baseUrl = card.getAttribute("data-url"); // Get the base URL from data-url attribute
             const dialogUrl = `${baseUrl}?zc_LoadIn=dialog`; // Append the dialog parameter
             if (baseUrl) {
-                window.open(dialogUrl, "_self"); // Open the URL in the current tab
+                // Use Zoho Creator's zc_LoadIn functionality to open the dialog
+                zc_LoadIn = "dialog"; // Required for Zoho Creator dialogs
+                ZOHO.CREATOR.API.openUrl(dialogUrl, "dialog", { width: 800, height: 600 }); 
             }
         });
 
