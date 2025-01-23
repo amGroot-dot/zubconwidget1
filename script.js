@@ -8,26 +8,15 @@ document.getElementById("gear-icon").addEventListener("click", function () {
       gearIcon.style.display = "block";
   });
 });
- // Add event listeners to all clickable cards
-      const url = async (url, event) => {
-      event.preventDefault();
-      config = {
-        action: "open",
-        url: data-url + "?zc_LoadIn=dialog",
-        window: "same"
-      }
-
-      await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-    }
-        // Add hover effect for better UX
-        card.style.cursor = "pointer";
-        card.addEventListener("mouseover", () => {
-            card.classList.add("shadow-lg");
-        });
-        card.addEventListener("mouseout", () => {
-            card.classList.remove("shadow-lg");
-        });
-    });
+ const myFunction = async (url, event) => {
+        event.preventDefault();
+        const config = {
+            action: "open",
+            url: url,
+            window: "same",
+        };
+        await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+    };
 // Initialize zoho js API
 // function deviceType() {
 //   const ua = navigator.userAgent;
