@@ -13,7 +13,7 @@ document.getElementById("gear-icon").addEventListener("click", function () {
       event.preventDefault();
       config = {
         action: "open",
-        url: data-url + url + "?zc_LoadIn=dialog",
+        url: data-url + "?zc_LoadIn=dialog",
         window: "same"
       }
 
