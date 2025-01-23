@@ -17,6 +17,14 @@ document.getElementById("gear-icon").addEventListener("click", function () {
         };
         await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     };
+document.querySelectorAll('.clickable-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.classList.add('hover-effect');
+        });
+        card.addEventListener('mouseleave', () => {
+            card.classList.remove('hover-effect');
+        });
+    });
 // Initialize zoho js API
 // function deviceType() {
 //   const ua = navigator.userAgent;
