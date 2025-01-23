@@ -16,7 +16,6 @@ document.getElementById("gear-icon").addEventListener("click", function () {
                 window.location.href = url; // Redirect to the URL in the same tab
             }
         });
-
         // Add hover effect for better UX
         card.style.cursor = "pointer";
         card.addEventListener("mouseover", () => {
