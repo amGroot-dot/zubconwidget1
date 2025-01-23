@@ -9,13 +9,16 @@ document.getElementById("gear-icon").addEventListener("click", function () {
   });
 });
  // Add event listeners to all clickable cards
-    document.querySelectorAll(".clickable-card").forEach(card => {
-        card.addEventListener("click", function () {
-            const url = this.getAttribute("data-url"); // Get the URL from data-url
-            if (url) {
-                window.location.href = url; // Redirect to the URL in the same tab
-            }
-        });
+      const url = async (url, event) => {
+      event.preventDefault();
+      config = {
+        action: "open",
+        url: data-url + url + "?zc_LoadIn=dialog",
+        window: "same"
+      }
+
+      await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+    }
         // Add hover effect for better UX
         card.style.cursor = "pointer";
         card.addEventListener("mouseover", () => {
