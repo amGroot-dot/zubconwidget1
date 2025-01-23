@@ -8,13 +8,10 @@ document.getElementById("gear-icon").addEventListener("click", function () {
       gearIcon.style.display = "block";
   });
 });
- // Select all cards with the class "clickable-card"
-    const cards = document.querySelectorAll(".clickable-card");
-
-    // Loop through each card and add a click event listener
-    cards.forEach(card => {
-         card.addEventListener("click", () => {
-            const url = card.getAttribute("data-url"); // Get the data-url attribute value
+ // Add event listeners to all clickable cards
+    document.querySelectorAll(".clickable-card").forEach(card => {
+        card.addEventListener("click", function () {
+            const url = this.getAttribute("data-url"); // Get the URL from data-url
             if (url) {
                 window.location.href = url; // Redirect to the URL in the same tab
             }
