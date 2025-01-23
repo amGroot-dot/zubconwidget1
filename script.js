@@ -17,12 +17,19 @@ document.getElementById("gear-icon").addEventListener("click", function () {
         };
         await ZOHO.CREATOR.UTIL.navigateParentURL(config);
     };
-document.querySelectorAll('.clickable-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.classList.add('hover-effect');
+// JavaScript to add hover effect
+    document.querySelectorAll('.clickable-card').forEach(card => {
+        // Change cursor to pointer
+        card.style.cursor = "pointer";
+        
+        // Add shadow on mouseover
+        card.addEventListener("mouseover", () => {
+            card.classList.add("shadow-lg");
         });
-        card.addEventListener('mouseleave', () => {
-            card.classList.remove('hover-effect');
+        
+        // Remove shadow on mouseout
+        card.addEventListener("mouseout", () => {
+            card.classList.remove("shadow-lg");
         });
     });
 // Initialize zoho js API
