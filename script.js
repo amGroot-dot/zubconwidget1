@@ -5,33 +5,33 @@ document.getElementById("gear-icon").addEventListener("click", function () {
   const offcanvas = new bootstrap.Offcanvas(document.getElementById("quickLinks"));
   offcanvas.show();
   document.getElementById("quickLinks").addEventListener("hidden.bs.offcanvas", function () {
-      gearIcon.style.display = "block";
+    gearIcon.style.display = "block";
   });
 });
- const myFunction = async (url, event) => {
-        event.preventDefault();
-        const config = {
-            action: "open",
-            url: url,
-            window: "same",
-        };
-        await ZOHO.CREATOR.UTIL.navigateParentURL(config);
-    };
+const myFunction = async (url, event) => {
+  event.preventDefault();
+  const config = {
+    action: "open",
+    url: url,
+    window: "same",
+  };
+  await ZOHO.CREATOR.UTIL.navigateParentURL(config);
+};
 // JavaScript to add hover effect
-    document.querySelectorAll('.clickable-card').forEach(card => {
-        // Change cursor to pointer
-        card.style.cursor = "pointer";
-        
-        // Add shadow on mouseover
-        card.addEventListener("mouseover", () => {
-            card.classList.add("shadow-lg");
-        });
-        
-        // Remove shadow on mouseout
-        card.addEventListener("mouseout", () => {
-            card.classList.remove("shadow-lg");
-        });
-    });
+document.querySelectorAll('.clickable-card').forEach(card => {
+  // Change cursor to pointer
+  card.style.cursor = "pointer";
+
+  // Add shadow on mouseover
+  card.addEventListener("mouseover", () => {
+    card.classList.add("shadow-lg");
+  });
+
+  // Remove shadow on mouseout
+  card.addEventListener("mouseout", () => {
+    card.classList.remove("shadow-lg");
+  });
+});
 // Initialize zoho js API
 // function deviceType() {
 //   const ua = navigator.userAgent;
@@ -44,24 +44,30 @@ document.getElementById("gear-icon").addEventListener("click", function () {
 //   return "desktop";
 // };
 const isIOS = () => /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-// console.log(deviceType());
+const collectSourceData = {}
+
+ZOHO.CREATOR.init().then(async function (data) {
+  var initparams = ZOHO.CREATOR.UTIL.getInitParams();
+  // Fetch all records from Form 1
+
+  var sourceRecords = await ZOHO.CREATOR.API.getAllRecords({
+    appName: "zubconj25",
+    reportName: "All_Users",
+    criteria: '(Email = "' + initparams.loginUser + '" && User_Status = "Active" && Log_in_out = "Logged In")'
+  });
+  collectSourceData.name = sourceRecords.data[0].Name;
+  collectSourceData.orgDisval = sourceRecords.data[0].Organization_ID.display_value.split("-")[1];
+  collectSourceData.orgId = sourceRecords.data[0].Organization_ID.ID;
+
+  document.getElementById("userAndOrgId").innerText = collectSourceData.name + " || " + collectSourceData.orgDisval;
+  closingStock();
+});
+
 ZOHO.CREATOR.init()
   .then(function (data) {
     // Get Records from ZOho Creator
     const getRecords = async () => {
       const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
-      var initparams = ZOHO.CREATOR.UTIL.getInitParams();
-      // Fetch all records from Form 1
-
-      var sourceRecords = await ZOHO.CREATOR.API.getAllRecords({
-        appName: "zubconj25",
-        reportName: "All_Users",
-        criteria: '(Email = "' + initparams.loginUser + '" && User_Status = "Active" && Log_in_out = "Logged In")'
-      });
-
-      console.log(sourceRecords);
-      const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
       try {
         const promises = searchModels.map(async (model) => {
           try {
@@ -74,12 +80,9 @@ ZOHO.CREATOR.init()
               ? await ZOHO.CREATOR.API.getAllRecords({
                 appName: "zubconj25",
                 reportName: model,
-                criteria: '(Organization_id=' + sourceRecords.data[0].Organization_ID.ID + ')'
+                criteria: '(Organization_id=' + collectSourceData.orgId + ')'
               })
               : await ZOHO.CREATOR.API.getAllRecords(config);
-              if (isIOS()) {
-                await delay(300);
-              }
             return { [model]: records.data };
           } catch (error) {
             return { [model]: [{ "error": JSON.parse(error.responseText).message, "Name": model }] };
@@ -132,22 +135,25 @@ ZOHO.CREATOR.init()
     // Append Item list in the UI
     const appendItems = (all_items, event) => {
 
-      const replaceModel = {"All_Job_Cards":"Job Cards",
+      const replaceModel = {
+        "All_Job_Cards": "Job Cards",
         "Item_DC1": "DC",
-       "Backend_Work_Orders": "work order" }
+        "Backend_Work_Orders": "work order"
+      }
       const list = document.querySelector(".list");
       list.innerHTML = ""; // Clear existing items
 
       // Create separate containers for each category
       const createNewContainer = document.createElement('div');
       const viewUpdateContainer = document.createElement('div');
-      const idsContainer = document.createElement('div')
+      const idsContainer = document.createElement('div');
+      const isCheckContainer = {}
       if (all_items.length == 0) {
         idsContainer.innerHTML = "No Result Found 😑";
         list.appendChild(idsContainer);
         return
       }
-      
+
       for (let i = 0; i < all_items.length; i++) {
         const divWrapper = document.createElement('div'); // Create a div wrapper for each button or error message
         divWrapper.classList.add('button-wrapper'); // Add a class to the wrapper
@@ -167,15 +173,24 @@ ZOHO.CREATOR.init()
 
           // Add event listeners based on Type_field
           if (all_items[i].Type_field === "Create New") {
-            createNewContainer.innerHTML = "<h6>Create New</h6>";
+            if (!isCheckContainer.create) {
+              createNewContainer.innerHTML = "<h6>CREATE NEW</h6>";
+              isCheckContainer.create = true;
+            };
             createNewContainer.appendChild(divWrapper);
             button.addEventListener('click', () => myFunction(all_items[i].Link_Name, event));
           } else if (all_items[i].Type_field === "View | Update") {
-            viewUpdateContainer.innerHTML = "<h6>View | Update</h6>";
+            if (!isCheckContainer.view) {
+              isCheckContainer.view = true;
+              viewUpdateContainer.innerHTML = "<h6>VIEW | UPDATE</h6>";
+            };
             viewUpdateContainer.appendChild(divWrapper);
             button.addEventListener('click', () => parama(all_items[i].Link_Name, event));
           } else {
-            idsContainer.innerHTML = "<h6> Documents </h6>";
+            if (!isCheckContainer.id) {
+              isCheckContainer.id = true;
+              idsContainer.innerHTML = "<h6> DOCUMENTS </h6>";
+            };
             button.textContent = replaceModel[all_items[i].modelName] + " - " + all_items[i].Name;
             idsContainer.appendChild(divWrapper);
             button.addEventListener('click', () => documentParam(all_items[i].Link_Name, event));
@@ -221,19 +236,13 @@ ZOHO.CREATOR.init()
       appendItems(resultArray, event);
     });
 
-
-
     // Input Actions
     const initializeSearch = () => {
       const searchInput = document.querySelector("#search");
       const list = document.querySelector(".list");
-      console.log(isIOS());
+      // document.getElementById()
       if (isIOS()) {
-        const lists = document.querySelector(".list");
-        lists.innerHTML = "";
-        const createNewContainer = document.createElement('div');
-        createNewContainer.innerHTML = "is not support ios";
-        lists.append(createNewContainer);
+       document.getElementById("div-search-bar").style.display = "none"
       }
       const handleSearch = async (event) => {
         const val = event.target.value || "";
@@ -283,16 +292,90 @@ ZOHO.CREATOR.init()
     };
 
     initializeSearch();
+    // const closingStocks = async(orgId) => {
+    // var fgClosingStock = await ZOHO.CREATOR.API.getAllRecords({
+    //     appName: "zubconj25",
+    //     reportName: "All_Inventory_Transactions",
+    //     criteria: '(Organization_id=' + orgId + ')'
+    //   })
+    //   document.getElementById("FGClosingStockH5").innerText = Math.round(fgClosingStock.data.reduce((sum,cur) => sum + Number(cur.fl_closing_stock), 0))
+
+    //    var rawMaterialClosingStockValue = await ZOHO.CREATOR.API.getAllRecords({
+    //     appName: "zubconj25",
+    //     reportName: "Raw_Material_Inventory_Summary",
+    //     criteria: '(Organization_id=' + orgId + ')'
+    //   })
+    //   document.getElementById("Raw Material Closing Stock Value").innerText = Math.round(rawMaterialClosingStockValue.data.reduce((sum,cur) => sum + Number(cur.Inventory_Value), 0))
+    // }
 
 
-    // Function to reinitialize search
-    // const reinitializeSearch = () => {
-    //   // Remove the old event listener if necessary
-    //   const searchInput = document.querySelector("#search");
-    //   const newSearchInput = searchInput.cloneNode(true);
-    //   searchInput.parentNode.replaceChild(newSearchInput, searchInput);
-
-    //   // Add the event listener again
-    //   initializeSearch();
-    // };
   });
+
+const closingStock = async () => {
+
+  try {
+    const reportNames = [
+      "Raw_Material_Inventory_Summary",
+      "Item_Inventory_Summary",
+      "All_Inventory_Transactions"
+    ];
+    const tagIds = [
+      ["RawMaterialClosingStockH5", "RawMaterialClosingStockValueH5"],
+      ["PartClosingStockH5", "PartClosingStockH5Value"],
+      ["FGClosingStockH5", "FGClosingStockValueH5"]
+    ];
+
+    const reports = await Promise.all(
+      reportNames.map(async (repName) => {
+        return await ZOHO.CREATOR.API.getAllRecords({
+          appName: "zubconj25",
+          reportName: repName,
+          criteria: '(Organization_id=' + collectSourceData.orgId + ')',
+        });
+      })
+    );
+
+    reports.map((report, index) => {
+      document.getElementById(tagIds[index][0]).innerText = numIntoRupFormat(
+        Math.round(
+          report.data.reduce(
+            (sum, cur) => sum + Number((cur.fl_process !== "Finished Goods" && cur.fl_process) ? 0 : cur.fl_closing_stock),
+            0
+          )
+        ).toString(), true
+      );
+
+      document.getElementById(tagIds[index][1]).innerText = "₹ " + numIntoRupFormat(
+        report.data.reduce(
+          (sum, cur) => sum + Number((cur.fl_process !== "Finished Goods" && cur.fl_process) ? 0 : cur.Inventory_Value),
+          0
+        ).toFixed(2).toString(), false
+      );
+    });
+  } catch (error) {
+    console.error("Error fetching reports:", error)
+  }
+}
+
+const numIntoRupFormat = (curr, flag) => {
+  var first_curr = curr.split(".")[0];
+  if (curr.includes(".") && first_curr.length > 3) {
+    var last_three_digits = "," + first_curr.substring(first_curr.length - 3, first_curr.length);
+    var rem_len = first_curr.length - 3;
+    var otherDigits = first_curr.substring(0, rem_len);
+    otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+    return otherDigits + last_three_digits + "." + curr.split(".")[1];
+  }
+  else if (curr.length > 3 && flag) {
+    var last_three_digits = "," + curr.substring(curr.length - 3, curr.length);
+    var rem_len = curr.length - 3;
+    var otherDigits = curr.substring(0, rem_len);
+    otherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+    return  otherDigits + last_three_digits;
+  }
+  else {
+    return curr
+  }
+
+
+} 
