@@ -255,7 +255,7 @@ ZOHO.CREATOR.init()
                 resultArray.push(arr);
               } else if (arr.fl_po_no?.toLowerCase().includes(val.toLowerCase()) || false) {
                 arr["modelName"] = key;
-                arr["Name"] = arr.fl_po_no+" " + "||" +" "+ arr.fl_po_date+" " + "||" +" "+arr.fl_value arr.error;
+                arr["Name"] = arr.fl_po_no+" " + "||" +" "+ arr.fl_po_date+" " + "||" +" "+arr.fl_value || arr.error;
                 arr["Link_Name"] = "All_Raw_Material_Purchase_Orders?fl_po_no=" + arr.fl_po_no;
                 resultArray.push(arr);
               } else if (arr.Name?.toLowerCase().includes(val.toLowerCase())) {
