@@ -34,7 +34,7 @@ ZOHO.CREATOR.init()
   .then(function (data) {
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = ["Backend_Work_Orders", "All_Job_Cards", "Item_DC1", "Backend_Search_Results"];
+      const searchModels = ["Backend_Work_Orders", "Back_End_RMDC", "Item_DC1", "Backend_Search_Results"];
       var iosSearchRes = "";
       try {
         const promises = searchModels.map(async (model) => {
@@ -111,7 +111,7 @@ ZOHO.CREATOR.init()
     const appendItems = (all_items, event) => {
 
       const replaceModel = {
-        "All_Job_Cards": "Job Cards",
+        "Back_End_RMDC": "RM DC",
         "Item_DC1": "DC",
         "Backend_Work_Orders": "work order"
       }
@@ -191,10 +191,10 @@ ZOHO.CREATOR.init()
             arr["Name"] = arr?.fl_dc_no_ref || arr.error;
             arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
             resultArray.push(arr);
-          } else if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase()) || false) {
+          } else if (arr.DC_No_Ref?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["modelName"] = key;
-            arr["Name"] = arr.fl_job_card_no || arr.error;
-            arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
+            arr["Name"] = arr.DC_No_Ref || arr.error;
+            arr["Link_Name"] = "Back_End_RMDC?DC_No_Ref=" + arr.DC_No_Ref;
             resultArray.push(arr);
           } else if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase()) || false) {
             arr["modelName"] = key;
@@ -237,10 +237,10 @@ ZOHO.CREATOR.init()
                 arr["Name"] = arr.fl_dc_no_ref || arr.error;
                 arr["Link_Name"] = "Back_End_Part_DC?fl_dc_no_ref=" + arr.fl_dc_no_ref;
                 resultArray.push(arr);
-              } else if (arr.fl_job_card_no?.toLowerCase().includes(val.toLowerCase())) {
+              } else if (arr.DC_No_Ref?.toLowerCase().includes(val.toLowerCase())) {
                 arr["modelName"] = key;
-                arr["Name"] = arr.fl_job_card_no || arr.error;
-                arr["Link_Name"] = "All_Job_Cards?fl_job_card_no=" + arr.fl_job_card_no;
+                arr["Name"] = arr.DC_No_Ref || arr.error;
+                arr["Link_Name"] = "Back_End_RMDC?DC_No_Ref=" + arr.DC_No_Ref;
                 resultArray.push(arr);
               } else if (arr.fl_work_order_no?.toLowerCase().includes(val.toLowerCase())) {
                 arr["modelName"] = key;
