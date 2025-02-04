@@ -34,7 +34,7 @@ ZOHO.CREATOR.init()
   .then(function (data) {
     // Get Records from ZOho Creator
     const getRecords = async () => {
-      const searchModels = ["Backend_Work_Orders", "Back_End_RMDC", "Item_DC1", "Backend_Search_Results"];
+      const searchModels = ["Backend_Work_Orders", "Back_End_RMDC", "Item_DC1","All_Raw_Material_Purchase_Orders", "Backend_Search_Results"];
       var iosSearchRes = "";
       try {
         const promises = searchModels.map(async (model) => {
@@ -113,7 +113,8 @@ ZOHO.CREATOR.init()
       const replaceModel = {
         "Back_End_RMDC": "RM DC",
         "Item_DC1": "DC",
-        "Backend_Work_Orders": "work order"
+        "Backend_Work_Orders": "work order",
+        "All_Raw_Material_Purchase_Orders":"RM PO"
       }
       const list = document.querySelector(".list");
       list.innerHTML = ""; // Clear existing items
@@ -143,7 +144,7 @@ ZOHO.CREATOR.init()
         } else {
           // Create and display a button
           const button = document.createElement('button');
-          button.textContent = all_items[i].Name + "↖";
+          button.textContent = all_items[i].Name + "↗";
           button.classList.add('custom-button'); // Add a custom button class for styling
 
           // Add event listeners based on Type_field
@@ -201,6 +202,11 @@ ZOHO.CREATOR.init()
             arr["Name"] = arr.fl_work_order_no || arr.error;
             arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
             resultArray.push(arr);
+          } else if (arr.fl_po_no?.toLowerCase().includes(val.toLowerCase()) || false) {
+            arr["modelName"] = key;
+            arr["Name"] = arr.fl_po_no || arr.error;
+            arr["Link_Name"] = "All_Raw_Material_Purchase_Orders?fl_po_no=" + arr.fl_po_no;
+            resultArray.push(arr);
           } else if (arr.Name?.toLowerCase().includes(val.toLowerCase()) || false) {
             resultArray.push(arr);
           } else if (arr.error || false) {
@@ -246,6 +252,11 @@ ZOHO.CREATOR.init()
                 arr["modelName"] = key;
                 arr["Name"] = arr.fl_work_order_no || arr.error;
                 arr["Link_Name"] = "Backend_Work_Orders?fl_work_order_no=" + arr.fl_work_order_no;
+                resultArray.push(arr);
+              } else if (arr.fl_po_no?.toLowerCase().includes(val.toLowerCase()) || false) {
+                arr["modelName"] = key;
+                arr["Name"] = arr.fl_po_no || arr.error;
+                arr["Link_Name"] = "All_Raw_Material_Purchase_Orders?fl_po_no=" + arr.fl_po_no;
                 resultArray.push(arr);
               } else if (arr.Name?.toLowerCase().includes(val.toLowerCase())) {
                 resultArray.push(arr);
